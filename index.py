@@ -16,10 +16,10 @@ option = st.sidebar.selectbox(
 
 if (option == 'histograma'):
   st.write('Função para obter histograma de avaliações')
-  percentage_chart(df)
+  histogram(df)
 elif option == '% do sexo':
   st.write('Gráfico de % do sexo dos leitores')
-  histogram(df)
+  percentage_chart(df)
 elif option == 'edfc':
   st.write('função de distribuição cumulativa empírica das avaliações')
   edfc_function(df)
