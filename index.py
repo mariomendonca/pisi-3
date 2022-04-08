@@ -8,10 +8,13 @@ from charts.boxplot_rating import boxplot
 from charts.abandonment import abandonment
 
 df = pd.read_csv('data/dados.csv')
+df.drop('ISBN_13', inplace=True, axis=1)
+df.drop('ISBN_10', inplace=True, axis=1)
+df.drop('editora', inplace=True, axis=1)
 
 option = st.sidebar.selectbox(
   'Escolha o grafico que deseja ver!',
-  ('histograma', '% do sexo', 'edfc', 'boxplot', 'abandonos')
+  ('histograma', '% do sexo', 'edfc', 'boxplot', 'abandonos', 'dataset')
 )
 
 if (option == 'histograma'):
@@ -29,3 +32,6 @@ elif option == 'boxplot':
 elif option == 'abandonos':
   st.write('Gráfico de quantidade de abandono de acordo com a quantidade de páginas')
   abandonment(df)
+elif option == 'dataset':
+  st.write('Dataset')
+  st.dataframe(df)
