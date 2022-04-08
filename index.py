@@ -8,9 +8,8 @@ from charts.boxplot_rating import boxplot
 from charts.abandonment import abandonment
 
 df = pd.read_csv('data/dados.csv')
-df.drop('ISBN_13', inplace=True, axis=1)
-df.drop('ISBN_10', inplace=True, axis=1)
-df.drop('editora', inplace=True, axis=1)
+to_drop = ['ISBN_13', 'ISBN_10', 'ano', 'resenha', 'paginas', 'editora']
+df.drop(to_drop, inplace=True, axis=1)
 
 option = st.sidebar.selectbox(
   'Escolha o grafico que deseja ver!',
