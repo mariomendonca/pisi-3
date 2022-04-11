@@ -8,8 +8,52 @@ from charts.boxplot_rating import boxplot
 from charts.abandonment import abandonment
 
 df = pd.read_csv('data/dados.csv')
-to_drop = ['ISBN_13', 'ISBN_10', 'ano', 'resenha', 'paginas', 'editora']
+
+# removing not used columns 
+to_drop = ['ISBN_13', 'ISBN_10', 'ano', 'resenha', 'editora']
 df.drop(to_drop, inplace=True, axis=1)
+
+# removing outliers and missing values
+def remove_rating_outliers():
+  df_count = df
+  outliers = []
+  for i in range(len(df)):
+    if df_count['rating'][i] > 5:
+      outliers.append(i)
+
+  return df_count.drop(labels=outliers, axis=0)
+
+def remove_pages_outliers():
+  df_count = df
+  outliers = []
+  for i in range(len(df)):
+    if df_count['paginas'][i] == 0:
+      outliers.append(i)
+  return df_count.drop(labels=outliers, axis=0)
+
+def remove_sex_outliers():
+  df_count = df
+  outliers = []
+  for i in range(len(df)):
+    if (df_count['male'][i] + df_count['female'][i] ) != 100:
+      if (df_count['lendo'][i] != 0) and (df_count['relendo'][i] != 0) and (df_count['leram'][i] != 0):
+        outliers.append(i)
+  return df_count.drop(labels=outliers, axis=0)
+
+def remove_genre_missing_values():
+  # df_count = df
+  # outliers = []
+  for i in range(len(df)):
+    print('testing')
+    if df['genero'][i] == '':
+      print('hello')
+
+df = remove_genre_missing_values()
+# print(len(df))
+# print(len(df))
+# df = remove_pages_outliers()
+# df = remove_rating_outliers()
+
 
 option = st.sidebar.selectbox(
   'Escolha o grafico que deseja ver!',
