@@ -1,3 +1,4 @@
+from numpy import append
 import streamlit as st
 import pandas as pd
 
@@ -41,19 +42,32 @@ def remove_sex_outliers():
   return df_count.drop(labels=outliers, axis=0)
 
 def remove_genre_missing_values():
-  # df_count = df
-  # outliers = []
+  df_count = df
+  outliers = []
   for i in range(len(df)):
-    print('testing')
-    if df['genero'][i] == '':
-      print('hello')
+    if (type(df_count['genero'][i]) == str):
+      genre = df_count['genero'][i].replace(' ', '')
+      if (len(genre) == 0):
+        outliers.append(i)
+  return df_count.drop(labels=outliers, axis=0)
 
+
+def remove_values_outliers():
+  df_count = df
+  outliers = []
+  for i in range(len(df)):
+    if (type(df_count['genero'][i]) == float):
+      outliers.append(i)
+
+  return df_count.drop(labels=outliers, axis=0)
+
+print(len(df['genero'][3194]))
 df = remove_genre_missing_values()
+print(len(df['genero'][3194]))
 # print(len(df))
-# print(len(df))
-# df = remove_pages_outliers()
-# df = remove_rating_outliers()
 
+# df = remove_rating_outliers()
+# df = remove_pages_outliers()
 
 option = st.sidebar.selectbox(
   'Escolha o grafico que deseja ver!',
