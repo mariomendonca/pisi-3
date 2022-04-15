@@ -61,10 +61,20 @@ def remove_values_outliers():
 
   return df_count.drop(labels=outliers, axis=0)
 
-print(len(df['genero'][3194]))
-df = remove_genre_missing_values()
-print(len(df['genero'][3194]))
+a = [1,2,3,4,5]
+
+def testing():
+  for i in range(df.index[-1]):
+    if (not df['genero'][i]):
+      print(i)
+
 # print(len(df))
+df = remove_genre_missing_values()
+# print(len(df))
+print(50 * '--//--')
+print(df.values[1])
+print('hello world')
+# testing()
 
 # df = remove_rating_outliers()
 # df = remove_pages_outliers()
