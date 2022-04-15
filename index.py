@@ -34,6 +34,10 @@ def remove_outliers():
     # genre
     elif type(data[i][12]) == float:
       outliers.append(i) 
+    
+    # description
+    elif type(data[i][11]) == float:
+      outliers.append(i) 
   return outliers
 
 def remove_missing_values():
@@ -51,7 +55,6 @@ missing_valuesList = remove_missing_values()
 dropList = outliersList + missing_valuesList
 dropList = list(dict.fromkeys(dropList))
 df = df.drop(labels=dropList, axis=0)
-
 
 option = st.sidebar.selectbox(
   'Escolha o grafico que deseja ver!',
