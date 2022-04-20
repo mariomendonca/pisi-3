@@ -55,6 +55,36 @@ missing_valuesList = remove_missing_values()
 dropList = outliersList + missing_valuesList
 dropList = list(dict.fromkeys(dropList))
 df = df.drop(labels=dropList, axis=0)
+df = df.dropna()
+df = df.drop_duplicates()
+
+# transformaçao
+newColumnsList = [
+  'Economia', 'Finanças ', 'Literatura Brasileira', 'Não-ficção ', 'Drama ', 'Ficção',
+  'Literatura Estrangeira', 'Suspense e Mistério', 'Ficção', 'Ficção científica',
+  'Biografia', 'Autobiografia', 'Memórias', 'História', 'Política', 'HQ', 'comics', 'mangá',
+  'Autoajuda', 'História Geral', 'Infantil', 'Literatura Estrangeira', 'Negócios', 'Empreendedorismo',
+  'Jovem adulto', 'Fantasia', 'Horror', 'Terror', 'Aventura', 'Jogos',
+  'Crime', 'Romance policial', 'Romance', 'Matemática', 'Medicina', 'Saúde', 'Romance', 'Infantojuvenil', 'Humor', 'Comédia', 'Autoajuda', 'Infantil ', 'Biologia', 'Fantasia',
+  'Psicologia', 'Jovem adulto', 'LGBT', 'GLS', 'Biografia' 'Autobiografia', 'Memórias', 'Distopia ', 'História ', 'Chick-lit ', 'Literatura Brasileira',
+  'Literatura Estrangeira', 'Religião', 'Espiritualidade', 'Jogos', 'Entretenimento ', 'Crime '
+]
+
+newColumnsList = list(dict.fromkeys(newColumnsList))
+
+# creating new columns
+for i in newColumnsList:
+    df[i] = 0
+
+def populate_new_columns():
+  for j in range(len(df)):
+    existentIndex = df.index[j]
+    for column in newColumnsList:
+      if column.upper() in df['genero'][existentIndex].upper():
+        df[column][existentIndex] = 1
+populate_new_columns()
+
+
 
 option = st.sidebar.selectbox(
   'Escolha o grafico que deseja ver!',
