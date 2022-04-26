@@ -18,7 +18,6 @@ features, true_labels = make_blobs(
 scaler = StandardScaler()
 scaled_features = scaler.fit_transform(features)
 
-
 # kmeans = KMeans(
 #     init="random",
 #     n_clusters=3,
@@ -54,7 +53,7 @@ st.pyplot(plt)
 # a = kmeans.fit(scaled_features)
 # print(kmeans.cluster_centers_)
 # print(kmeans.n_iter_)
-# print(kmeans.labels_)
+print(kmeans.labels_)
 # print(scaled_features[:10])
 
 # print(features)

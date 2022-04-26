@@ -46,20 +46,31 @@ print('Silhouetter Score: %.3f' % score)
 
 
 
-fig, ax = plt.subplots(2, 2, figsize=(15,8))
-for i in [2, 3, 4, 5]:
-    '''
-    Create KMeans instance for different number of clusters
-    '''
-    km = KMeans(n_clusters=i, init='k-means++', n_init=10, max_iter=100, random_state=42)
-    q, mod = divmod(i, 2)
-    '''
-    Create SilhouetteVisualizer instance with KMeans instance
-    Fit the visualizer
-    '''
-    visualizer = SilhouetteVisualizer(km, colors='yellowbrick', ax=ax[q-1][mod])
-    # visualizer.fit(X)
-    visualizer.fit(df)
+# Descubrindo numeros ideais de clusters
+# fig, ax = plt.subplots(2, 2, figsize=(15,8))
+# for i in [2, 3, 4, 5]:
+# for i in [2, 3, 4, 5]:
+#     '''
+#     Create KMeans instance for different number of clusters
+#     '''
+#     km = KMeans(n_clusters=i, init='k-means++', n_init=10, max_iter=100, random_state=42)
+#     q, mod = divmod(i, 2)
+#     '''
+#     Create SilhouetteVisualizer instance with KMeans instance
+#     Fit the visualizer
+#     '''
+#     visualizer = SilhouetteVisualizer(km, colors='yellowbrick', ax=ax[q-1][mod])
+#     # visualizer.fit(X)
+#     visualizer.fit(df)
 
+fig, ax = plt.subplots(2, 2, figsize=(15,8))
+km = KMeans(n_clusters=5, init='k-means++', n_init=10, max_iter=100, random_state=42)
+q, mod = divmod(5, 2)
+
+visualizer = SilhouetteVisualizer(km, colors='yellowbrick', ax=ax[q-1][mod])
+# visualizer.fit(X)
+visualizer.fit(df)
+print(km.labels_)
+st.write(km.labels_)
 st.pyplot(plt)
 # st.(visualizer.fit(df))
