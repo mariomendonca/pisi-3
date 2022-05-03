@@ -2,7 +2,7 @@ from sklearn import datasets
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
 from yellowbrick.cluster import SilhouetteVisualizer
-
+import numpy as np
 import matplotlib.pyplot as plt
 import streamlit as st
 import pandas as pd
@@ -71,6 +71,31 @@ visualizer = SilhouetteVisualizer(km, colors='yellowbrick', ax=ax[q-1][mod])
 # visualizer.fit(X)
 visualizer.fit(df)
 print(km.labels_)
+
+
+st.write('labels')
 st.write(km.labels_)
+st.write('target')
+st.write(iris.target)
 st.pyplot(plt)
 # st.(visualizer.fit(df))
+
+
+
+plt.scatter(df['paginas'], df['rating'])
+plt.xlim(0, 3000) #range do eixo x
+plt.ylim(0, 10) #range do eixo y
+st.pyplot(plt)
+
+kmeans = KMeans(n_clusters = 5, #numero de clusters
+init = 'k-means++', n_init = 10, #algoritmo que define a posição dos clusters de maneira mais assertiva
+max_iter = 300) #numero máximo de iterações
+pred_y = kmeans.fit_predict(df)
+plt.scatter(df['paginas'], df['rating'], c = pred_y) #posicionamento dos eixos x e y
+plt.xlim(0, 3000) #range do eixo x
+plt.ylim(0, 10) 
+plt.scatter(kmeans.cluster_centers_[:,1],kmeans.cluster_centers_[:,0], s = 70, c = 'red') #posição de cada centroide no gráfico
+st.pyplot(plt)
+# plt.show()
+# plt.scatter(dataset[:,1], dataset[:,0]) #posicionamento dos eixos x e y
+# print(plt.grid) #função que desenha a grade no nosso gráfico)
