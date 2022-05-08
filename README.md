@@ -30,3 +30,11 @@ Após isso, devemos instalar os pacotes do projeto, rodando o seguinte comando:
   pip install streamlit
   pip install seaborn
 ```
+
+## Rodando o projeto
+
+Após isso, devemos rodar o seguinte comando
+
+```bash
+  streamlit run index.py
+```
