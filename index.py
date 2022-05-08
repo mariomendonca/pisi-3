@@ -4,6 +4,7 @@ import pandas as pd
 from charts.histogram import histogram
 from charts.percentage_chart import percentage_chart
 from charts.intersted_people import intersted_people
+from charts.category_chart import category_chart
 from charts.edfc import edfc_function
 from charts.abandonment import abandonment
 
@@ -87,7 +88,7 @@ populateNewColumns()
 
 option = st.sidebar.selectbox(
     'Escolha o grafico que deseja ver!',
-    ('Dataset', 'Histograma', 'Porcentagem do Sexo', 'Gráfico EDFC', 'Abandonos', 'Índice de pessoas interessadas - Histograma')
+    ('Dataset', 'Histograma', 'Porcentagem do Sexo', 'Gráfico EDFC', 'Abandonos', 'Índice de pessoas interessadas - Histograma', 'Relação Sexo x Categorias')
 )
 
 if (option == 'Histograma'):
@@ -102,6 +103,9 @@ elif option == 'Gráfico EDFC':
 elif option == 'Índice de pessoas interessadas - Histograma':
   st.write('Relação entre o índice de pessoas interessadas e pessoas que terminaram a leitura de um livro + as que o abandonaram.')
   intersted_people(df)
+elif option == 'Relação Sexo x Categorias':
+  st.write('A proporção entre leitores do sexo feminino e masculino apresenta grandes variações de acordo com cada gênero literário')
+  category_chart(df)
 elif option == 'Abandonos':
   st.write('Gráfico de quantidade de abandono de acordo com a quantidade de páginas')
   abandonment(df)
