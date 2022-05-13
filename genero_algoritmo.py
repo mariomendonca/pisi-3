@@ -66,7 +66,7 @@ def populateNewColumns():
         df[column][existentIndex] = 1
 populateNewColumns()
 def testing():
-  new_df = pd.DataFrame([], columns = ['titulo', 'rating', 'genero'])
+  new_df = pd.DataFrame([], columns = ['titulo', 'genero', 'rating'])
   for i in range(len(df)):
     existentIndex = df.index[i]
     if (type(df['titulo'][existentIndex]) == str):
@@ -81,37 +81,41 @@ st.dataframe(new_df)
 
 # X = new_df['genero']
 # y = new_df['rating']
+# df.drop(to_drop, inplace=True, axis=1)
 
-km = KMeans(n_clusters=3, random_state=42)
-km.fit_predict(new_df)
-score = silhouette_score(new_df, km.labels_, metric='euclidean')
-print('Silhouetter Score: %.3f' % score)
+col = new_df.drop('titulo', axis=1)
 
+# km = KMeans(n_clusters=3, random_state=42)
+# km.fit_predict(col)
+# score = silhouette_score(col, km.labels_, metric='euclidean')
+# st.write('Silhouetter Score: %.3f' % score)
+# print('Silhouetter Score: %.3f' % score)
+# st.dataframe(col)
 # fig, ax = plt.subplots(2, 2, figsize=(15,8))
 # for i in [2, 3, 4, 5]:
 #     km = KMeans(n_clusters=i, init='k-means++', n_init=10, max_iter=100, random_state=42)
 #     q, mod = divmod(i, 2)
 #     visualizer = SilhouetteVisualizer(km, colors='yellowbrick', ax=ax[q-1][mod])
-#     visualizer.fit(new_df)
+#     visualizer.fit(col)
 #     st.pyplot(plt)
     
 
 fig, ax = plt.subplots(2, 2, figsize=(15,8))
 km = KMeans(n_clusters=4, init='k-means++', n_init=10, max_iter=100, random_state=42)
-q, mod = divmod(4, 2)
+# q, mod = divmod(4, 2)
 
 
 plt.scatter(new_df['genero'], new_df['rating'])
 plt.xlim(0, 50) #range do eixo x
-plt.ylim(0, 10) #range do eixo y
+plt.ylim(0, 5) #range do eixo y
 st.pyplot(plt)
 
 kmeans = KMeans(n_clusters = 4, #numero de clusters
 init = 'k-means++', n_init = 10, #algoritmo que define a posição dos clusters de maneira mais assertiva
 max_iter = 300) #numero máximo de iterações
-pred_y = kmeans.fit_predict(new_df)
+pred_y = kmeans.fit_predict(col)
 plt.scatter(new_df['genero'], new_df['rating'], c = pred_y) #posicionamento dos eixos x e y
-plt.xlim(0, 50) #range do eixo x
-plt.ylim(0, 10) 
+plt.xlim(0, 60) #range do eixo x
+plt.ylim(0, 5) 
 plt.scatter(kmeans.cluster_centers_[:,1],kmeans.cluster_centers_[:,0], s = 70, c = 'red') #posição de cada centroide no gráfico
 st.pyplot(plt)
