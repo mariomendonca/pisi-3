@@ -87,7 +87,7 @@ pred_y = kmeans.fit_predict(col)
 new_df['cluster_id'] = kmeans.labels_
 
 st.dataframe(new_df)
-
+st.dataframe(df)
 plt.scatter(new_df['genero'], new_df['rating'], c = pred_y) #posicionamento dos eixos x e y
 plt.xlim(0, 50) #range do eixo x
 plt.ylim(0, 5) 
@@ -134,7 +134,7 @@ def recomendation_per_id(bookId):
     random_list2 = random.sample(cluster_two, 20)
     return random_list1 + random_list2
 
-def returning_books(books_array):
+def returning_recomend_books(books_array):
   list_books = []
   for i in books_array:
     list_books.append(new_df.values[int(i)])
@@ -142,11 +142,27 @@ def returning_books(books_array):
 
 
 zero = recomendation_per_id(0)
-one = recomendation_per_id(18)
+two = recomendation_per_id(18)
 three = recomendation_per_id(21)
-two = recomendation_per_id(37)
+one = recomendation_per_id(37)
 
-st.write(returning_books(zero))
-st.write(returning_books(one))
-st.write(returning_books(two))
-st.write(returning_books(three))
+st.write(returning_recomend_books(zero))
+st.write(returning_recomend_books(one))
+st.write(returning_recomend_books(two))
+st.write(returning_recomend_books(three))
+
+def returning_random_books():
+  return random.sample(new_df.values, 50)
+
+def newDataset():
+  dataSet = pd.DataFrame([], columns = ['titulo', 'autor', 'descricao', 
+  'rating', 'book_id', 'cluster_id' ])
+  for i in range(len(new_df)):
+    existentIndex = int(new_df['titulo'][i]) - 1
+    dataSet = dataSet.append({'titulo': df['titulo'][existentIndex], 'autor': df['autor'][existentIndex],
+    'descricao': df['descricao'][existentIndex], 'rating': df['rating'][existentIndex],'book_id': int(i),
+    'cluster_id': new_df['cluster_id'][i]}
+    , ignore_index=True)
+  return dataSet
+dataset = newDataset()
+dataset.to_csv('newDados.csv')
