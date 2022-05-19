@@ -1,3 +1,4 @@
+
 import streamlit as st
 import pandas as pd
 import streamlit as st
@@ -6,28 +7,41 @@ import random
 import firebase_admin
 from firebase_admin import credentials 
 from firebase_admin import firestore
-from flask import Flask
+from flask import Flask, jsonify
+from flask.globals import request
 
 df = pd.read_csv('newDados.csv')
 
-cred = credentials.Certificate('likeabook.json')
-firebase_admin.initialize_app(cred)
-db = firestore.client()
+# cred = credentials.Certificate('likeabook.json')
+# firebase_admin.initialize_app(cred)
+# db = firestore.client()
 app = Flask("LikeABook")
 
 #Aleatórios
 
+@app.route("/test", methods =["GET"])
+def test():
+    response = jsonify({"num": "1", "num2":"2"})
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    response.headers.add("Access-Control-Allow-Credentials", "true")
+    response.headers.add("Access-Control-Allow-Headers", "*")
+    response.headers.add("Access-Control-Allow-Methods", "*")
+    return response
+
+
 @app.route("/get-random-books", methods = ["GET"])
 def returning_random_books():
   books_array = random.sample(range(0, 21511), 50)  
-  list_books = {}
+  list_books = jsonify({})
   cont = -1
   for i in books_array:
     cont+=1
     a = {'titulo{}'.format(cont): df['titulo'][i], 'autor{}'.format(cont): df['autor'][i], 
     'descricao{}'.format(cont) : df['descricao'][i], 'rating{}'.format(cont): str(df['rating'][i])
     }
+    print(a)
     list_books.update(a)
+    print(list_books)
   return list_books
 
 # random_books = returning_random_books()
