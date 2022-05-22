@@ -7,6 +7,8 @@ from charts.intersted_people import intersted_people
 from charts.category_chart import category_chart
 from charts.edfc import edfc_function
 from charts.abandonment import abandonment
+from charts.abandono_lendo import new_chart
+from charts.leram_querem import new_chart2
 
 df = pd.read_csv('data/dados.csv')
 
@@ -90,6 +92,9 @@ option = st.sidebar.selectbox(
     'Escolha o grafico que deseja ver!',
     ('Dataset', 'Histograma', 'Porcentagem do Sexo', 'Gráfico EDFC', 'Abandonos', 'Índice de pessoas interessadas - Histograma', 'Relação Sexo x Categorias')
 )
+
+new_chart(df)
+new_chart2(df)
 
 if (option == 'Histograma'):
   st.write('Função para obter histograma de avaliações')
