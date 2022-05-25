@@ -1,6 +1,5 @@
 
-import streamlit as st
-import pandas as pd
+from urllib import response
 import streamlit as st
 import pandas as pd
 import random
@@ -9,42 +8,33 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 from flask import Flask, jsonify
 from flask.globals import request
+from flask_cors import CORS
 
 df = pd.read_csv('newDados.csv')
 
-# cred = credentials.Certificate('likeabook.json')
-# firebase_admin.initialize_app(cred)
-# db = firestore.client()
+
 app = Flask("LikeABook")
+CORS(app)
+
 
 #Aleatórios
-
-@app.route("/test", methods =["GET"])
-def test():
-    response = jsonify({"num": "1", "num2":"2"})
-    response.headers.add("Access-Control-Allow-Origin", "*")
-    response.headers.add("Access-Control-Allow-Credentials", "true")
-    response.headers.add("Access-Control-Allow-Headers", "*")
-    response.headers.add("Access-Control-Allow-Methods", "*")
-    return response
 
 
 @app.route("/get-random-books", methods = ["GET"])
 def returning_random_books():
-  books_array = random.sample(range(0, 21511), 50)  
-  list_books = jsonify({})
-  cont = -1
-  for i in books_array:
-    cont+=1
-    a = {'titulo{}'.format(cont): df['titulo'][i], 'autor{}'.format(cont): df['autor'][i], 
-    'descricao{}'.format(cont) : df['descricao'][i], 'rating{}'.format(cont): str(df['rating'][i])
-    }
-    print(a)
-    list_books.update(a)
-    print(list_books)
-  return list_books
+    books_array = random.sample(range(0, 21511), 10)  
+    response = {'books': []}
+    cont = 0
+    for i in books_array:
+        a = {'titulo': df['titulo'][i], 'autor': df['autor'][i], 'descricao': df['descricao'][i], 'rating': str(df['rating'][i]),'book_id': str(df['book_id'][i]), 'cluster_id': str(df['cluster_id'][i])}
+        print(a)
+        response['books'].append(a)
+        cont+=1
+    print(response)
+    return response
 
-# random_books = returning_random_books()
+
+
 
 #recomendados
 
@@ -234,15 +224,6 @@ cluster_three = [21, 22, 23, 27, 32, 36, 41, 42, 46, 52, 53, 54, 57, 82, 83, 84,
 19239, 19243, 19244, 19262, 19284, 19290, 19296, 19306, 19310, 19311, 19317, 19318, 19323, 19332, 19333, 19334, 19345, 19356, 19360, 19380, 19396, 19400, 19412, 19420, 19429, 19436, 19437, 19438, 19442, 19450, 19464, 19520, 19522, 19533, 19536, 19540, 19547, 19559, 19585, 19589, 19604, 19605, 19606, 19615, 19616, 19636, 19637, 19647, 19685, 19696, 19703, 19715, 19721, 19723, 19725, 19738, 19752, 19756, 19761, 19764, 19766, 19771, 19776, 19777, 19778, 19779, 19780, 19787, 19796, 19826, 19838, 19842, 19846, 19848, 19849, 19854, 19862, 19879, 19880, 19881, 19883, 19888, 19891, 19894, 19898, 19901, 19904, 19907, 19912, 19915, 19917, 19921, 19923, 19924, 19937, 19938, 19939, 19940, 19941, 19948, 19951, 19954, 19957, 19961, 19968, 19970, 19972, 19983, 19984, 19995, 19996, 19997, 19999, 20010, 20016, 20022, 20027, 20030, 20032, 20035, 20044, 20045, 20046, 20047, 20050, 20074, 20082, 20093, 20097, 20105, 20106, 20107, 20122, 20125, 20129, 20137, 20138, 20144, 20145, 20146, 20211, 20223, 20243, 20319, 20374, 20380, 
 20412, 20413, 20414, 20420, 20424, 20425, 20430, 20431, 20439, 20448, 20449, 20450, 20459, 20460, 20461, 20467, 20468, 20469, 20472, 20473, 20474, 20478, 20479, 20481, 20482, 20483, 20489, 20490, 20491, 20502, 20503, 20504, 20505, 20506, 20507, 20512, 20513, 20514, 20515, 20522, 20523, 20524, 20526, 20527, 20528, 20529, 20533, 20534, 20535, 20631, 20668, 20698, 20712, 20737, 20738, 20752, 20753, 20758, 20759, 20762, 20763, 20766, 20767, 20783, 20789, 20818, 20835, 20845, 20859, 20860, 20894, 20923, 20929, 20930, 20937, 20964, 20965, 20968, 20982, 20989, 20998, 21003, 21011, 21012, 21013, 21014, 21015, 21022, 21045, 21077, 21091, 21118, 21136, 21157, 21193, 21194, 21195, 21205, 21206, 21244, 21297, 21298, 21299, 21300, 21301, 21302, 21342, 21347, 21348, 21353, 21354, 21406, 21407, 21430, 21431, 21432, 21439, 21462, 21466, 21496, 21497, 21498, 21499]
 
-# for i in range(len(df.values)):
-#   if df.values[i][6] == 0:
-#     cluster_zero.append(i)
-#   elif df.values[i][6] == 1:
-#     cluster_one.append(i)
-#   elif df.values[i][6] == 2:
-#     cluster_two.append(i)
-#   elif df.values[i][6] == 3:
-#     cluster_three.append(i)
 
 def recomendation_per_id(userID):
     books = db.collection(userID).where('cluster_id', '>=', 0).stream()
