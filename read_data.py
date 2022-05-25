@@ -22,7 +22,7 @@ CORS(app)
 
 @app.route("/get-random-books", methods = ["GET"])
 def returning_random_books():
-    books_array = random.sample(range(0, 21511), 10)  
+    books_array = random.sample(range(0, 21511), 50)  
     response = {'books': []}
     cont = 0
     for i in books_array:
