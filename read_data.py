@@ -285,4 +285,24 @@ def returning_recomend_books():
         response['books'].append(a)
     return response
 
+@app.route("/get-user-books")
+def returning_user_books():
+    user_id = request.args.get('user_id')  
+    colecao =  db.collection(user_id).get()
+    infos = []
+    books_array = []
+    for i in colecao:
+        if i.id != 'mode':
+            books_array.append(int(i.id))  
+            infos.append([i.to_dict()['isFavorite'],i.to_dict()['readAfter'],i.to_dict()['readed'], i.to_dict()['rating']]) 
+    response = {'books': []}
+    cont = 0
+    for i in books_array:
+        a = {'titulo': df['titulo'][i], 'autor': df['autor'][i], 'descricao': df['descricao'][i], 
+        'rating': str(df['rating'][i]),'book_id': str(df['book_id'][i]), 
+        'cluster_id': str(df['cluster_id'][i]), 'isFavorite': infos[cont][0], 'readAfter': infos[cont][1],
+        'readed': infos[cont][2], 'user_rating':infos[cont][3]}
+        response['books'].append(a)
+    return response
+
 app.run()
