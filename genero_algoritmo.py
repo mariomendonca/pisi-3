@@ -88,8 +88,8 @@ new_df['cluster_id'] = kmeans.labels_
 
 st.dataframe(new_df)
 st.dataframe(df)
-plt.scatter(new_df['genero'], new_df['rating'], c = pred_y) #posicionamento dos eixos x e y
-plt.xlim(0, 50) #range do eixo x
+plt.scatter(new_df['genero'], new_df['rating'], c = pred_y,cmap=plt.cm.Paired) #posicionamento dos eixos x e y
+plt.xlim(0, 55) #range do eixo x
 plt.ylim(0, 5) 
 plt.scatter(kmeans.cluster_centers_[:,1],kmeans.cluster_centers_[:,0], s = 70, c = 'red') #posição de cada centroide no gráfico
 st.pyplot(plt)
