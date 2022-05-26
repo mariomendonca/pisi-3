@@ -303,6 +303,7 @@ def returning_user_books():
         'cluster_id': str(df['cluster_id'][i]), 'isFavorite': infos[cont][0], 'readAfter': infos[cont][1],
         'readed': infos[cont][2], 'user_rating':infos[cont][3]}
         response['books'].append(a)
+        cont += 1
     return response
 
 app.run()
