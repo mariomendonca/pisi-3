@@ -11,6 +11,10 @@ from charts.abandono_lendo import new_chart
 from charts.leram_querem import new_chart2
 from charts.romance_sex import romance_sex_percentage
 from charts.economia_sex import economia_sex_percentage
+from charts.box import box_chart
+from charts.violin import violin_chart
+from charts.strip_genre import strip_chart
+from charts.strip_rating import strip_rating
 
 df = pd.read_csv('data/dados.csv')
 
@@ -95,8 +99,8 @@ populateNewColumns()
 option = st.sidebar.selectbox(
     'Escolha o grafico que deseja ver!',
     (
-      'Dataset', 'Histograma de avaliações', 'Porcentagem do Sexo', 'Sexo - Romance', 'Sexo - Economia', 'Abandono - querem ler', 
-      'Querem ler - leram'
+      'Dataset', 'Histograma de avaliações', 'box - rating', 'violin - rating', 'Porcentagem do Sexo', 'Sexo - Romance', 'Sexo - Economia', 'Abandono - querem ler', 
+      'Querem ler - leram', 'Strip chart genero - querem ler', 'Strip chart genero - rating'
     )
 )
 
@@ -104,6 +108,12 @@ if option == 'Histograma de avaliações':
   st.write('**O histograma é um gráfico que demonstra uma distribuição de frequências.**')
   st.write('Neste exemplo, temos um histograma de avaliações, onde é possivel notar que o maior número de avaliações é nota 4')
   histogram(df)
+elif option == 'box - rating':
+  st.write('Box - Rating')
+  box_chart(df)
+elif option == 'violin - rating':
+  st.write('Violino - Rating')
+  violin_chart(df)
 elif option == 'Porcentagem do Sexo':
   st.write('**Gráfico de porcentagem do Sexo dos leitores.**')
   st.write('Neste gráfico é possivel notar que a quantidade de mulheres leitoras é bem maior que de homens')
@@ -127,3 +137,9 @@ elif option == 'Querem ler - leram':
 elif option == 'Dataset':
   st.write('Dataset')
   st.dataframe(df_without_genre_columns)
+elif option == 'Strip chart genero - querem ler':
+  st.write('Strip chart genero - querem ler')
+  strip_chart(df)
+elif option == 'Strip chart genero - rating':
+  st.write('Strip chart genero - rating')
+  strip_rating(df)

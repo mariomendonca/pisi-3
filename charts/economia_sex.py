@@ -9,7 +9,6 @@ def economia_sex_percentage(df):
     if not ('economia' in df['genero'][existentIndex].lower()):
       dropList.append(existentIndex)
 
-  print(dropList)
   df = df.drop(labels=dropList, axis=0)
 
   male = df.male
