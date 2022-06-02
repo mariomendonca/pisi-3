@@ -9,6 +9,8 @@ from charts.edfc import edfc_function
 from charts.abandonment import abandonment
 from charts.abandono_lendo import new_chart
 from charts.leram_querem import new_chart2
+from charts.romance_sex import romance_sex_percentage
+from charts.economia_sex import economia_sex_percentage
 
 df = pd.read_csv('data/dados.csv')
 
@@ -60,6 +62,8 @@ df = df.drop(labels=dropList, axis=0)
 df = df.dropna()
 df = df.drop_duplicates()
 
+df_without_genre_columns = df.copy()
+
 # Transformação
 newColumnsList = [
     'Economia', 'Finanças ', 'Literatura Brasileira', 'Não-ficção ', 'Drama ', 'Ficção',
@@ -90,30 +94,36 @@ populateNewColumns()
 
 option = st.sidebar.selectbox(
     'Escolha o grafico que deseja ver!',
-    ('Dataset', 'Histograma', 'Porcentagem do Sexo', 'Gráfico EDFC', 'Abandonos', 'Índice de pessoas interessadas - Histograma', 'Relação Sexo x Categorias')
+    (
+      'Dataset', 'Histograma de avaliações', 'Porcentagem do Sexo', 'Sexo - Romance', 'Sexo - Economia', 'Abandono - querem ler', 
+      'Querem ler - leram'
+    )
 )
 
-new_chart(df)
-new_chart2(df)
-
-if (option == 'Histograma'):
-  st.write('Função para obter histograma de avaliações')
+if option == 'Histograma de avaliações':
+  st.write('**O histograma é um gráfico que demonstra uma distribuição de frequências.**')
+  st.write('Neste exemplo, temos um histograma de avaliações, onde é possivel notar que o maior número de avaliações é nota 4')
   histogram(df)
 elif option == 'Porcentagem do Sexo':
-  st.write('Gráfico de porcentagem do Sexo dos leitores')
+  st.write('**Gráfico de porcentagem do Sexo dos leitores.**')
+  st.write('Neste gráfico é possivel notar que a quantidade de mulheres leitoras é bem maior que de homens')
   percentage_chart(df)
-elif option == 'Gráfico EDFC':
-  st.write('função de distribuição cumulativa empírica das avaliações')
-  edfc_function(df)
-elif option == 'Índice de pessoas interessadas - Histograma':
-  st.write('Relação entre o índice de pessoas interessadas e pessoas que terminaram a leitura de um livro + as que o abandonaram.')
-  intersted_people(df)
-elif option == 'Relação Sexo x Categorias':
-  st.write('A proporção entre leitores do sexo feminino e masculino apresenta grandes variações de acordo com cada gênero literário')
-  category_chart(df)
-elif option == 'Abandonos':
-  st.write('Gráfico de quantidade de abandono de acordo com a quantidade de páginas')
-  abandonment(df)
+elif option == 'Sexo - Romance':
+  st.write('**Gráfico de porcentagem do Sexo dos leitores do genero romance.**')
+  st.write('Neste gráfico é possivel notar que a diferença entre homens e mulheres é ainda maior no gênero romance')
+  romance_sex_percentage(df)
+elif option == 'Sexo - Economia':
+  st.write('**Gráfico de porcentagem do Sexo dos leitores do genero romance.**')
+  st.write('Já no gênero de economia está quase igualado')
+  economia_sex_percentage(df)
+elif option == 'Abandono - querem ler':
+  st.write('**Gráfico de relação entre abandonos x lendo.**')
+  st.write('Neste gráfico é possivel notar que quanto mais abandonos em um livre, menos pessoas querem ler')
+  new_chart(df)
+elif option == 'Querem ler - leram':
+  st.write('**Gráfico de relação entre Pessoas que querem ler x Pessoas que estão lendo.**')
+  st.write('Neste gráfico mostra que a relação entre pessoas que querem ler e pessoas que já leram não tem interfere um no outro')
+  new_chart2(df)
 elif option == 'Dataset':
   st.write('Dataset')
-  st.dataframe(df)
+  st.dataframe(df_without_genre_columns)
